@@ -1,0 +1,28 @@
+name: Upload to CurseForge
+on:
+  push:
+    branches:
+      - main
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create zip
+        run: |
+          mkdir TimeStamp
+          cp *.lua *.toc TimeStamp/
+          zip -r TimeStamp.zip TimeStamp
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          token: "${{ secrets.TIMESTAMP }}"
+          project_id: "101974"
+          game_endpoint: "wow"
+          file_path: "TimeStamp.zip"
+          game_versions: "12.0.5"
+          release_type: "release"
+          display_name: "TimeStamp - ${{ github.event.head_commit.timestamp }}"
+          changelog: "${{ github.event.head_commit.message }}"
+          changelog_type: "markdown"

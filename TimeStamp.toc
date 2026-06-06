@@ -1,0 +1,10 @@
+## Interface: 120005
+## Title: TimeStamp
+## Version: 12.0.5
+## Notes: Take a clean screenshot of your character with name, level, zone, item level and a timestamp. Remember all the good days.
+## Author: Frost-Lightbringer
+## X-Curse-Project-ID: 101974
+## SavedVariables: TimeStampDB
+## IconTexture: Interface\ICONS\inv_misc_-selfiecamera_01
+
+TimeStamp.lua
