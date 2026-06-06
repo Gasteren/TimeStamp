@@ -1,17 +1,3 @@
--- TimeStamp by Frost/Frostanon
--- Updated for World of Warcraft: Midnight (12.0.5)
---
--- The overlay is hidden during play and appears only at the moment a
--- screenshot is taken.
---
--- /ts          clean full-screen character card (hides the UI)
--- /ts snap     take a normal screenshot with the info overlay (UI stays)
--- /ts key      toggle hijacking your screenshot key for the overlay shot
--- /ts unlock   show + unlock the overlay so you can drag it
--- /ts lock     lock and hide the overlay
--- /ts reset    reset the overlay position
--- /ts help     list commands
-
 local addonName = ...
 
 local mfloor = math.floor
@@ -269,29 +255,75 @@ local function applyKeybind()
     keybindDirty = false
 end
 
--- First-run popup: offer to enable companion mode.
-StaticPopupDialogs["TIMESTAMP_COMPANION"] = {
-    text = "|cff00ccffTimeStamp|r\n\nWould you like TimeStamp to add your character details to your screenshots automatically?\n\nWhen this is on, it works right alongside Memoria, Memento, and any other addon that takes screenshots for you. Whenever one of those snaps a shot, TimeStamp saves an extra copy with your name, level, zone, item level and the date stamped on it.\n\nTimeStamp doesn't decide when to take screenshots - it simply rides along with the addons that do. It's completely optional, and you can turn it on or off anytime with |cffffd100/ts companion|r. No rush - feel free to decide later.",
-    button1 = "Enable",
-    button2 = "Keep Off",
-    button3 = "Don't remind me",
-    OnAccept = function()  -- Enable (prompt still returns until "Don't remind me")
+-- First-run prompt: a small dialog with Enable / Keep Off plus a
+-- "Don't remind me again" checkbox. Only the checkbox sets the saved flag,
+-- so the choice (on/off) is separate from whether to keep asking.
+local promptFrame
+local function showCompanionPrompt()
+    if promptFrame then
+        promptFrame.check:SetChecked(false)
+        promptFrame:Show()
+        return
+    end
+
+    local f = CreateFrame("Frame", "TimeStampPrompt", UIParent, "BackdropTemplate")
+    f:SetSize(440, 250)
+    f:SetPoint("CENTER")
+    f:SetFrameStrata("DIALOG")
+    f:EnableMouse(true)
+    f:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        tile = true, tileSize = 32, edgeSize = 32,
+        insets = { left = 11, right = 12, top = 12, bottom = 11 },
+    })
+
+    local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    title:SetPoint("TOP", 0, -18)
+    title:SetText("|cff00ccffTimeStamp|r")
+
+    local body = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    body:SetPoint("TOPLEFT", 24, -46)
+    body:SetPoint("TOPRIGHT", -24, -46)
+    body:SetJustifyH("LEFT")
+    body:SetSpacing(3)
+    body:SetText("Would you like TimeStamp to add your character details to your screenshots automatically?\n\nWhen this is on, it works alongside Memoria, Memento, and any other addon that takes screenshots for you - whenever one of those snaps a shot, TimeStamp saves an extra copy with your details stamped on it.\n\nYou can change this anytime with |cffffd100/ts companion|r.")
+
+    local check = CreateFrame("CheckButton", "TimeStampPromptCheck", f, "UICheckButtonTemplate")
+    check:SetPoint("BOTTOMLEFT", 22, 18)
+    check:SetSize(24, 24)
+    local checkLabel = check:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    checkLabel:SetPoint("LEFT", check, "RIGHT", 4, 1)
+    checkLabel:SetText("Don't remind me again")
+    f.check = check
+
+    local enable = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    enable:SetSize(110, 24)
+    enable:SetPoint("BOTTOMRIGHT", -16, 16)
+    enable:SetText("Enable")
+    enable:SetScript("OnClick", function()
         TimeStampDB.companion = true
+        if check:GetChecked() then TimeStampDB.seenCompanionPrompt = true end
+        f:Hide()
         msg("companion mode |cff44ff44ON|r. Toggle anytime with /ts companion.")
-    end,
-    OnCancel = function()  -- Keep Off / Escape (prompt returns next login)
+    end)
+
+    local keepoff = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    keepoff:SetSize(110, 24)
+    keepoff:SetPoint("RIGHT", enable, "LEFT", -8, 0)
+    keepoff:SetText("Keep Off")
+    keepoff:SetScript("OnClick", function()
         TimeStampDB.companion = false
+        if check:GetChecked() then TimeStampDB.seenCompanionPrompt = true end
+        f:Hide()
         msg("companion mode left |cffff4444OFF|r. Turn it on later with /ts companion.")
-    end,
-    OnAlt = function()     -- Don't remind me (stops the prompt for good)
-        TimeStampDB.seenCompanionPrompt = true
-        msg("okay, I won't ask again - use /ts companion any time if you change your mind.")
-    end,
-    timeout = 0,
-    whileDead = true,
-    hideOnEscape = true,
-    preferredIndex = 3,    -- avoids tainting the default UI
-}
+    end)
+
+    tinsert(UISpecialFrames, "TimeStampPrompt")  -- Esc closes it (no choice saved)
+
+    promptFrame = f
+    f:Show()
+end
 
 local init = CreateFrame("Frame")
 init:RegisterEvent("ADDON_LOADED")
@@ -314,7 +346,7 @@ init:SetScript("OnEvent", function(self, event, arg1)
         if not TimeStampDB.seenCompanionPrompt then
             C_Timer.After(4, function()
                 if not TimeStampDB.seenCompanionPrompt then
-                    StaticPopup_Show("TIMESTAMP_COMPANION")
+                    showCompanionPrompt()
                 end
             end)
         end
