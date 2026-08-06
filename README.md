@@ -7,7 +7,6 @@ Remember all the good days.
 The info overlay stays hidden while you play and only appears at the moment a
 screenshot is taken. Take a normal screenshot with your usual key and the overlay
 rides along automatically, or use `/ts` for a clean, UI-hidden character card.
-The overlay position is saved between sessions.
 
 ## Commands
 
