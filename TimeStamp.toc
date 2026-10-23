@@ -1,11 +1,23 @@
-## Interface: 120007, 120100, 120105, 10601, 16001
+## Interface: 120105, 120107, 16001
 
 ## Title: TimeStamp
 ## Version: 12.1.5
-## Notes: Take a clean screenshot of your character with name, level, zone, item level and a timestamp. Remember all the good days.
+## Notes: Take clean, memory-worthy screenshots with your character details baked right in - name, class, guild, level, item level, zone and a date/time stamp. Remember all the good days.
 ## Author: Frost-Lightbringer
 ## X-Curse-Project-ID: 101974
-## SavedVariables: TimeStampDB
 ## IconTexture: Interface\ICONS\inv_misc_-selfiecamera_01
 
-TimeStamp.lua
+## AllowLoadGameType: mainline
+## SavedVariables: TimeStampDB
+## SavedVariablesPerCharacter: TimeStampCharDB
+## OptionalDeps: LibSharedMedia-3.0, SharedMedia
+## AddonCompartmentFunc: TimeStamp_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: TimeStamp_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: TimeStamp_OnAddonCompartmentLeave
+
+Core.lua
+Fonts.lua
+Fields.lua
+Overlay.lua
+Capture.lua
+Options.lua

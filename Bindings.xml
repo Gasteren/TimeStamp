@@ -1,0 +1,8 @@
+<Bindings>
+	<Binding name="TIMESTAMP_CLEAN" header="TIMESTAMP" category="ADDONS">
+		TimeStamp_CleanShot()
+	</Binding>
+	<Binding name="TIMESTAMP_OVERLAY" category="ADDONS">
+		TimeStamp_OverlayShot()
+	</Binding>
+</Bindings>
