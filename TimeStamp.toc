@@ -1,7 +1,7 @@
 ## Interface: 120105, 120107, 16001
 
 ## Title: TimeStamp
-## Version: 12.1.5
+## Version: 1.0.0
 ## Notes: Take clean, memory-worthy screenshots with your character details baked right in - name, class, guild, level, item level, zone and a date/time stamp. Remember all the good days.
 ## Author: Frost-Lightbringer
 ## X-Curse-Project-ID: 101974
