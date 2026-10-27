@@ -5,7 +5,7 @@
 ## Notes: Take clean, memory-worthy screenshots with your character details baked right in - name, class, guild, level, item level, zone and a date/time stamp. Remember all the good days.
 ## Author: Frost-Lightbringer
 ## X-Curse-Project-ID: 101974
-## IconTexture: Interface\ICONS\inv_misc_-selfiecamera_01
+## IconTexture: Interface\ICONS\inv_misc_-selfiecamera_02
 
 ## AllowLoadGameType: mainline
 ## SavedVariables: TimeStampDB
