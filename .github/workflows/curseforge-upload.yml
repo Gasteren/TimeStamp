@@ -15,7 +15,7 @@ jobs:
           cp *.lua *.toc TimeStamp/
           zip -r TimeStamp.zip TimeStamp
       - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@v3
+        uses: itsmeow/curseforge-upload@13f278adc4cc7b881555f87e6ea528387dd6492b # v3 (v3.1.0)
         with:
           token: "${{ secrets.TIMESTAMP }}"
           project_id: "101974"
