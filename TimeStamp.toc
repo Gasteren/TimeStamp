@@ -3,7 +3,7 @@
 ## Title: TimeStamp
 ## Version: 1.0.0
 ## Notes: Take clean, memory-worthy screenshots with your character details baked right in - name, class, guild, level, item level, zone and a date/time stamp. Remember all the good days.
-## Author: Frost-Lightbringer
+## Author: Frost Forever | EU Normal Ruleset
 ## X-Curse-Project-ID: 101974
 ## IconTexture: Interface\ICONS\inv_misc_-selfiecamera_02
 
