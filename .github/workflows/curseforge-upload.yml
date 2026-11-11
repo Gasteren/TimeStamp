@@ -14,6 +14,23 @@ jobs:
           mkdir TimeStamp
           cp *.lua *.toc TimeStamp/
           zip -r TimeStamp.zip TimeStamp
+      # The commit message becomes the CurseForge changelog, without the Co-authored-by line.
+      - name: Changelog from the commit message
+        id: changelog
+        env:
+          MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          text=$(printf '%s\n' "$MESSAGE" | grep -viE '^(co-authored-by|signed-off-by):' || true)
+          if [ -z "$text" ]; then
+            text="Manual release"
+          fi
+          printf '%s\n' "$text"
+          {
+            echo "text<<CHANGELOG_EOF"
+            printf '%s\n' "$text"
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Upload to CurseForge
         uses: itsmeow/curseforge-upload@13f278adc4cc7b881555f87e6ea528387dd6492b # v3 (v3.1.0)
         with:
@@ -24,5 +41,5 @@ jobs:
           game_versions: "12.1.5,1.60.1"
           release_type: "release"
           display_name: "TimeStamp - ${{ github.event.head_commit.timestamp }}"
-          changelog: "${{ github.event.head_commit.message }}"
+          changelog: "${{ steps.changelog.outputs.text }}"
           changelog_type: "markdown"
