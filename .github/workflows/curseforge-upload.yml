@@ -38,7 +38,7 @@ jobs:
           project_id: "101974"
           game_endpoint: "wow"
           file_path: "TimeStamp.zip"
-          game_versions: "12.1.5,1.60.1"
+          game_versions: "12.1.5,12.1.7,1.60.1"
           release_type: "release"
           display_name: "TimeStamp - ${{ github.event.head_commit.timestamp }}"
           changelog: "${{ steps.changelog.outputs.text }}"
