@@ -1,5 +1,9 @@
 # TimeStamp changelog
 
+## 1.0.1
+
+Ready for **World of Warcraft: Midnight** patch 12.1.7.
+
 ## 2.0.0
 
 Rewritten for **World of Warcraft: Midnight** (12.1.5, PTR 12.1.7) and **World of Warcraft: Forever** (1.60.1).
