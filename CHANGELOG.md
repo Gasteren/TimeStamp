@@ -1,5 +1,9 @@
 # TimeStamp changelog
 
+## 1.0.2
+
+Key bindings for both shot types now show up under Keybindings > AddOns (they were missing from the CurseForge download).
+
 ## 1.0.1
 
 Ready for **World of Warcraft: Midnight** patch 12.1.7.
