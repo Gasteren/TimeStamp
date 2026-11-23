@@ -12,7 +12,7 @@ jobs:
       - name: Create zip
         run: |
           mkdir TimeStamp
-          cp *.lua *.toc TimeStamp/
+          cp *.lua *.toc *.xml TimeStamp/
           zip -r TimeStamp.zip TimeStamp
       # The commit message becomes the CurseForge changelog, without the Co-authored-by line.
       - name: Changelog from the commit message
